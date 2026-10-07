@@ -1,0 +1,1489 @@
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rico's Lanche</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      color: white;
+    }
+
+    /* =========================
+       CAPA
+    ========================= */
+
+    header {
+      min-height: 90vh;
+
+      background:
+        linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.85)),
+        url("https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=85");
+
+      background-size: cover;
+      background-position: center;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+      padding: 30px;
+    }
+
+    .hero {
+      max-width: 850px;
+    }
+
+    .logo {
+      color: #ffb000;
+      font-size: 65px;
+      font-weight: 900;
+      text-transform: uppercase;
+
+      text-shadow:
+        3px 3px 0 #7a1700,
+        0 0 25px rgba(255,157,0,.4);
+    }
+
+    .hero h2 {
+      font-size: 30px;
+      margin: 15px 0;
+    }
+
+    .hero p {
+      color: #ddd;
+      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #ff9d00;
+      color: #111;
+
+      padding: 15px 30px;
+
+      border-radius: 30px;
+
+      font-size: 17px;
+      font-weight: bold;
+
+      cursor: pointer;
+      transition: .3s;
+
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #ffc400;
+      transform: scale(1.05);
+    }
+
+    /* =========================
+       CARDÁPIO
+    ========================= */
+
+    .menu-section {
+      padding: 70px 8%;
+      background: #111;
+    }
+
+    .titulo {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .titulo h2 {
+      font-size: 40px;
+      color: #ffae00;
+    }
+
+    .titulo p {
+      color: #aaa;
+      margin-top: 8px;
+    }
+
+    /* =========================
+       CATEGORIAS
+    ========================= */
+
+    .categorias {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      gap: 12px;
+
+      margin-bottom: 40px;
+    }
+
+    .categoria {
+      background: #222;
+      color: white;
+
+      border: 1px solid #444;
+
+      padding: 12px 22px;
+
+      border-radius: 25px;
+
+      cursor: pointer;
+
+      transition: .3s;
+    }
+
+    .categoria:hover,
+    .categoria.ativo {
+      background: #ff9d00;
+      color: #111;
+      border-color: #ff9d00;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .cardapio {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+      gap: 25px;
+    }
+
+    .card {
+      background: #1b1b1b;
+
+      border-radius: 18px;
+
+      overflow: hidden;
+
+      border: 1px solid #292929;
+
+      transition: .3s;
+
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.3);
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+
+      border-color: #ff9d00;
+
+      box-shadow:
+        0 12px 35px rgba(255,157,0,.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 210px;
+
+      object-fit: cover;
+
+      display: block;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card h3 {
+      color: #ffae00;
+
+      font-size: 22px;
+
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #aaa;
+
+      line-height: 1.5;
+
+      min-height: 72px;
+    }
+
+    .preco {
+      color: white;
+
+      font-size: 21px;
+
+      font-weight: bold;
+
+      margin: 15px 0;
+    }
+
+    .add {
+      width: 100%;
+
+      padding: 12px;
+
+      background: #ff9d00;
+
+      border: none;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-weight: bold;
+
+      font-size: 15px;
+
+      transition: .3s;
+    }
+
+    .add:hover {
+      background: #ffc400;
+
+      transform: scale(1.02);
+    }
+
+    /* =========================
+       CARRINHO
+    ========================= */
+
+    .carrinho {
+      position: fixed;
+
+      right: 20px;
+      bottom: 20px;
+
+      background: #ff9d00;
+
+      color: #111;
+
+      width: 60px;
+      height: 60px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 25px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 5px 25px rgba(0,0,0,.5);
+
+      z-index: 10;
+    }
+
+    .contador {
+      position: absolute;
+
+      top: -5px;
+      right: -5px;
+
+      background: red;
+
+      color: white;
+
+      font-size: 12px;
+
+      width: 22px;
+      height: 22px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(0,0,0,.8);
+
+      align-items: center;
+      justify-content: center;
+
+      z-index: 20;
+
+      padding: 20px;
+    }
+
+    .modal.aberto {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #1b1b1b;
+
+      width: 100%;
+
+      max-width: 500px;
+
+      border-radius: 20px;
+
+      padding: 25px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+    }
+
+    .modal-topo {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+    }
+
+    .modal-topo h2 {
+      color: #ffae00;
+    }
+
+    .fechar {
+      background: none;
+
+      border: none;
+
+      color: white;
+
+      font-size: 28px;
+
+      cursor: pointer;
+    }
+
+    .item-carrinho {
+      display: flex;
+
+      justify-content: space-between;
+
+      border-bottom: 1px solid #333;
+
+      padding: 12px 0;
+
+      gap: 10px;
+    }
+
+    .item-carrinho small {
+      color: #aaa;
+    }
+
+    .total {
+      font-size: 22px;
+
+      font-weight: bold;
+
+      margin: 20px 0;
+
+      color: #ffae00;
+    }
+
+    .finalizar {
+      width: 100%;
+
+      padding: 15px;
+
+      background: #25d366;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 10px;
+
+      font-size: 17px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    /* =========================
+       RODAPÉ
+    ========================= */
+
+    footer {
+      text-align: center;
+
+      padding: 35px;
+
+      background: #080808;
+
+      color: #888;
+    }
+
+    footer strong {
+      color: #ffae00;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .logo {
+        font-size: 40px;
+      }
+
+      .hero h2 {
+        font-size: 23px;
+      }
+
+      .titulo h2 {
+        font-size: 30px;
+      }
+
+      .card img {
+        height: 200px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     CAPA
+========================= -->
+
+<header>
+
+  <div class="hero">
+<img src="logotipo.png" width="300x">
+    <div class="logo">
+      Rico's Lanche
+    </div>
+
+    <h2>
+      O sabor que dá vontade de repetir! 🍔
+    </h2>
+
+    <p>
+      Hambúrgueres artesanais, lanches caprichados,
+      porções deliciosas e bebidas geladas.
+    </p>
+
+    <a href="#cardapio" class="btn">
+      Ver Cardápio
+    </a>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     CARDÁPIO
+========================= -->
+
+<section class="menu-section" id="cardapio">
+
+  <div class="titulo">
+
+    <h2>
+      🍔 Nosso Cardápio
+    </h2>
+
+    <p>
+      Escolha seu lanche favorito
+    </p>
+
+  </div>
+
+
+  <!-- CATEGORIAS -->
+
+  <div class="categorias">
+
+    <button
+      class="categoria ativo"
+      onclick="filtrar('todos', this)"
+    >
+      Todos
+    </button>
+
+    <button
+      class="categoria"
+      onclick="filtrar('hamburguer', this)"
+    >
+      🍔 Hambúrgueres
+    </button>
+
+    <button
+      class="categoria"
+      onclick="filtrar('porcao', this)"
+    >
+      🍟 Porções
+    </button>
+
+    <button
+      class="categoria"
+      onclick="filtrar('bebida', this)"
+    >
+      🥤 Bebidas
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       PRODUTOS
+  ========================= -->
+
+  <div class="cardapio">
+
+
+    <!-- 1 - RICO'S BURGER -->
+
+    <div class="card produto hamburguer">
+
+      <img
+        src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=85"
+        alt="Rico's Burger"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Rico's Burger
+        </h3>
+
+        <p>
+          Pão brioche, hambúrguer artesanal,
+          queijo cheddar cremoso, alface,
+          tomate, bacon crocante e molho especial.
+        </p>
+
+        <div class="preco">
+          R$ 29,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Rico’s Burger', 29.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+ <!-- 2 - DUPLO BACON -->
+
+<div class="card produto hamburguer">
+
+  <img
+    src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=800&q=85"
+    alt="Hambúrguer Duplo Bacon"
+  >
+
+  <div class="card-content">
+
+    <h3>
+      Duplo Bacon
+    </h3>
+
+    <p>
+      Dois hambúrgueres artesanais,
+      queijo cheddar, bacon crocante
+      e molho especial da casa.
+    </p>
+
+    <div class="preco">
+      R$ 36,90
+    </div>
+
+    <button
+      class="add"
+      onclick="adicionar('Duplo Bacon', 36.90)"
+    >
+      + Adicionar
+    </button>
+
+  </div>
+
+</div>
+
+
+    <!-- 3 - CHEDDAR BACON -->
+
+    <div class="card produto hamburguer">
+
+      <img
+        src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=85"
+        alt="Cheddar Bacon"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Cheddar Bacon
+        </h3>
+
+        <p>
+          Hambúrguer artesanal suculento,
+          cheddar cremoso, bacon crocante
+          e cebola caramelizada.
+        </p>
+
+        <div class="preco">
+          R$ 32,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Cheddar Bacon', 32.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 4 - X-SALADA -->
+
+    <div class="card produto hamburguer">
+
+      <img
+        src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?auto=format&fit=crop&w=800&q=85"
+        alt="X-Salada"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          X-Salada
+        </h3>
+
+        <p>
+          Hambúrguer artesanal, queijo,
+          alface, tomate, cebola,
+          milho e molho especial.
+        </p>
+
+        <div class="preco">
+          R$ 25,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('X-Salada', 25.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 5 - X-TUDO -->
+
+    <div class="card produto hamburguer">
+
+      <img
+        src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=800&q=85"
+        alt="X-Tudo"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          X-Tudo Rico
+        </h3>
+
+        <p>
+          Hambúrguer artesanal, queijo,
+          presunto, bacon, ovo, alface,
+          tomate e molho especial.
+        </p>
+
+        <div class="preco">
+          R$ 34,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('X-Tudo Rico', 34.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 6 - CHICKEN BURGER -->
+
+    <div class="card produto hamburguer">
+
+      <img
+        src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=800&q=85"
+        alt="Chicken Burger"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Chicken Burger
+        </h3>
+
+        <p>
+          Frango empanado crocante,
+          queijo cheddar, alface,
+          tomate e molho especial.
+        </p>
+
+        <div class="preco">
+          R$ 28,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Chicken Burger', 28.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         PORÇÕES
+    ========================= -->
+
+
+    <!-- 7 - BATATA -->
+
+    <div class="card produto porcao">
+
+      <img
+        src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=85"
+        alt="Batata Frita"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Batata Frita
+        </h3>
+
+        <p>
+          Batatas fritas crocantes,
+          douradas e sequinhas,
+          acompanhadas de molho especial.
+        </p>
+
+        <div class="preco">
+          R$ 18,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Batata Frita', 18.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 8 - BATATA COM CHEDDAR -->
+
+    <div class="card produto porcao">
+
+      <img
+        src="https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=800&q=85"
+        alt="Batata com Cheddar e Bacon"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Batata Cheddar & Bacon
+        </h3>
+
+        <p>
+          Batata frita crocante coberta
+          com cheddar cremoso e bacon
+          crocante.
+        </p>
+
+        <div class="preco">
+          R$ 27,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Batata Cheddar e Bacon', 27.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 9 - ONION RINGS -->
+
+    <div class="card produto porcao">
+
+      <img
+        src="https://images.unsplash.com/photo-1639024471283-03518883512d?auto=format&fit=crop&w=800&q=85"
+        alt="Onion Rings"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Onion Rings
+        </h3>
+
+        <p>
+          Anéis de cebola empanados,
+          dourados e super crocantes,
+          servidos com molho especial.
+        </p>
+
+        <div class="preco">
+          R$ 21,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Onion Rings', 21.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 10 - NUGGETS -->
+
+    <div class="card produto porcao">
+
+      <img
+        src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=800&q=85"
+        alt="Nuggets de Frango"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Nuggets Crocantes
+        </h3>
+
+        <p>
+          Nuggets de frango empanados,
+          crocantes por fora e macios
+          por dentro.
+        </p>
+
+        <div class="preco">
+          R$ 19,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Nuggets Crocantes', 19.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         BEBIDAS
+    ========================= -->
+
+
+    <!-- 11 - COCA-COLA -->
+
+<div class="card produto bebida">
+
+  <img
+    src="https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=800&q=85"
+    alt="Coca-Cola gelada"
+  >
+
+  <div class="card-content">
+
+    <h3>
+      Coca-Cola
+    </h3>
+
+    <p>
+      Coca-Cola bem gelada,
+      perfeita para acompanhar
+      seu hambúrguer e suas porções.
+    </p>
+
+    <div class="preco">
+      R$ 6,00
+    </div>
+
+    <button
+      class="add"
+      onclick="adicionar('Coca-Cola', 6.00)"
+    >
+      + Adicionar
+    </button>
+
+  </div>
+
+    <!-- 12 - GUARANÁ -->
+
+    <div class="card produto bebida">
+
+      <img
+        src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=85"
+        alt="Refrigerante"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Guaraná
+        </h3>
+
+        <p>
+          Refrigerante de guaraná
+          bem gelado para acompanhar
+          seu pedido.
+        </p>
+
+        <div class="preco">
+          R$ 6,00
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Guaraná', 6.00)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 13 - MILKSHAKE -->
+
+    <div class="card produto bebida">
+
+      <img
+        src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=85"
+        alt="Milkshake de Chocolate"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Milkshake de Chocolate
+        </h3>
+
+        <p>
+          Milkshake cremoso de chocolate,
+          servido gelado e com muito sabor.
+        </p>
+
+        <div class="preco">
+          R$ 14,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Milkshake de Chocolate', 14.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 14 - SUCO -->
+
+    <div class="card produto bebida">
+
+      <img
+        src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=800&q=85"
+        alt="Suco de Laranja"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          Suco de Laranja
+        </h3>
+
+        <p>
+          Suco de laranja natural,
+          refrescante e preparado
+          na hora.
+        </p>
+
+        <div class="preco">
+          R$ 9,90
+        </div>
+
+        <button
+          class="add"
+          onclick="adicionar('Suco de Laranja', 9.90)"
+        >
+          + Adicionar
+        </button>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     BOTÃO CARRINHO
+========================= -->
+
+<div
+  class="carrinho"
+  onclick="abrirCarrinho()"
+>
+
+  🛒
+
+  <span
+    class="contador"
+    id="contador"
+  >
+    0
+  </span>
+
+</div>
+
+
+<!-- =========================
+     MODAL CARRINHO
+========================= -->
+
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-topo">
+
+      <h2>
+        🛒 Seu Pedido
+      </h2>
+
+      <button
+        class="fechar"
+        onclick="fecharCarrinho()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div id="listaCarrinho">
+
+      <p style="color:#aaa">
+        Seu carrinho está vazio.
+      </p>
+
+    </div>
+
+
+    <div
+      class="total"
+      id="total"
+    >
+      Total: R$ 0,00
+    </div>
+
+
+    <button
+      class="finalizar"
+      onclick="finalizarPedido()"
+    >
+      Finalizar pelo WhatsApp
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     RODAPÉ
+========================= -->
+
+<footer>
+
+  <p>
+    © 2026
+    <strong>Rico's Lanche</strong>
+  </p>
+
+  <p style="margin-top:8px">
+    Feito com ❤️ e muito sabor.
+  </p>
+
+</footer>
+
+
+<script>
+
+/* =========================
+   FILTRO
+========================= */
+
+function filtrar(categoria, botao) {
+
+  const produtos =
+    document.querySelectorAll(".produto");
+
+  const botoes =
+    document.querySelectorAll(".categoria");
+
+
+  botoes.forEach(btn => {
+
+    btn.classList.remove("ativo");
+
+  });
+
+
+  botao.classList.add("ativo");
+
+
+  produtos.forEach(produto => {
+
+    if (
+      categoria === "todos" ||
+      produto.classList.contains(categoria)
+    ) {
+
+      produto.style.display = "block";
+
+    } else {
+
+      produto.style.display = "none";
+
+    }
+
+  });
+
+}
+
+
+/* =========================
+   CARRINHO
+========================= */
+
+let carrinho = [];
+
+
+function adicionar(nome, preco) {
+
+  carrinho.push({
+
+    nome: nome,
+    preco: preco
+
+  });
+
+
+  atualizarCarrinho();
+
+
+  alert(
+    nome +
+    " foi adicionado ao carrinho!"
+  );
+
+}
+
+
+/* =========================
+   ATUALIZAR CARRINHO
+========================= */
+
+function atualizarCarrinho() {
+
+  const contador =
+    document.getElementById("contador");
+
+
+  const lista =
+    document.getElementById("listaCarrinho");
+
+
+  const totalElemento =
+    document.getElementById("total");
+
+
+  contador.innerText =
+    carrinho.length;
+
+
+  if (carrinho.length === 0) {
+
+    lista.innerHTML =
+      '<p style="color:#aaa">Seu carrinho está vazio.</p>';
+
+    totalElemento.innerText =
+      "Total: R$ 0,00";
+
+    return;
+
+  }
+
+
+  lista.innerHTML = "";
+
+
+  let total = 0;
+
+
+  carrinho.forEach((item, index) => {
+
+    total += item.preco;
+
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "item-carrinho";
+
+
+    div.innerHTML = `
+
+      <div>
+
+        <strong>
+          ${item.nome}
+        </strong>
+
+        <br>
+
+        <small>
+          R$
+          ${item.preco
+            .toFixed(2)
+            .replace(".", ",")}
+        </small>
+
+      </div>
+
+
+      <button
+
+        onclick="remover(${index})"
+
+        style="
+          background:#e53935;
+          color:white;
+          border:none;
+          padding:7px 10px;
+          border-radius:6px;
+          cursor:pointer;
+        "
+
+      >
+
+        Remover
+
+      </button>
+
+    `;
+
+
+    lista.appendChild(div);
+
+  });
+
+
+  totalElemento.innerText =
+    "Total: R$ " +
+    total.toFixed(2).replace(".", ",");
+
+}
+
+
+/* =========================
+   REMOVER
+========================= */
+
+function remover(index) {
+
+  carrinho.splice(index, 1);
+
+  atualizarCarrinho();
+
+}
+
+
+/* =========================
+   ABRIR CARRINHO
+========================= */
+
+function abrirCarrinho() {
+
+  document
+    .getElementById("modal")
+    .classList.add("aberto");
+
+}
+
+
+/* =========================
+   FECHAR CARRINHO
+========================= */
+
+function fecharCarrinho() {
+
+  document
+    .getElementById("modal")
+    .classList.remove("aberto");
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function finalizarPedido() {
+
+  if (carrinho.length === 0) {
+
+    alert(
+      "Adicione algum produto ao carrinho!"
+    );
+
+    return;
+
+  }
+
+
+  let mensagem =
+    "Olá! Gostaria de fazer um pedido na Rico's Lanche:\n\n";
+
+
+  let total = 0;
+
+
+  carrinho.forEach(item => {
+
+    mensagem +=
+      "🍔 " +
+      item.nome +
+      " - R$ " +
+      item.preco
+        .toFixed(2)
+        .replace(".", ",") +
+      "\n";
+
+
+    total += item.preco;
+
+  });
+
+
+  mensagem +=
+    "\n💰 Total: R$ " +
+    total
+      .toFixed(2)
+      .replace(".", ",");
+
+
+  /*
+     COLOQUE AQUI O SEU NÚMERO
+     
+     Exemplo:
+     5514999999999
+
+     55 = Brasil
+     14 = DDD
+     restante = número
+  */
+
+  const telefone =
+    "5511999999999";
+
+
+  const url =
+    "https://wa.me/" +
+    telefone +
+    "?text=" +
+    encodeURIComponent(mensagem);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+</script>
+
+</body>
+</html>
+
